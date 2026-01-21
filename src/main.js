@@ -1,10 +1,5 @@
-import './style.css'
-
-const routes = {
-  "home": "/views/home.html",
-  "login": "/views/login.html",
-  "about": "/views/about.html"
-}
+import './styles/style.css'
+import {routes} from "./constants/routes.js"
 
 document.body.addEventListener('click', (e)=>{
   // console.log(e);
@@ -16,8 +11,6 @@ document.body.addEventListener('click', (e)=>{
   }
 })
 
-
-
 const navigate = async (pathname) => {
   const route = routes[pathname]
 
@@ -26,4 +19,3 @@ const navigate = async (pathname) => {
 
   document.querySelector('#app').innerHTML = html
 }
-

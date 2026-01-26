@@ -1,8 +1,6 @@
 import './styles/style.css'
 import {routes} from "./constants/routes.js"
 
-
-
 // Rutas públicas (sin login)
 const publicRoutes = ["/login"];
 

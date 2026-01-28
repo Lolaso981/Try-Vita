@@ -29,6 +29,7 @@ h1 {
 
 .input-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -163,7 +164,7 @@ h1 {
 .todo-content {
     display: flex;
     align-items: center;
-    gap: 100px;
+    gap: 50px;
     flex: 1;
 }
 
@@ -175,6 +176,7 @@ h1 {
 }
 
 .todo-title {
+    display: flex;
     font-size: 16px;
     color: #333;
     word-break: break-word;
@@ -214,9 +216,14 @@ h1 {
         gap: 12px;
     }
 
+    .todo-content {
+        flex-wrap: wrap ;
+        justify-content: center;
+    }
+
     .todo-actions {
         width: 100%;
-        justify-content: flex-start;
+        justify-content: center;
     }
 
     .btn {

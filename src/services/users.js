@@ -56,25 +56,21 @@ export const createUser = async (user) => {
     }
 }
 
-export const updateUser = async (id) => {
-    const data = await fetch(`http://localhost:3000/usuarios/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: 4,
-            nombre: "Juan David",
-            email: "juan@example.com",
-            edad: 21,
-            ciudad: "Medellín"
+export const updateUser = async (id, updatedUser) => {
+    try {
+        const data = await fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedUser)
+
         })
-    }).then(response => response.json())
-        .then(data => console.log('Registro creado:', data))
-        .catch(error => console.error('Error:', error));
-
-
-    return "usuario actualizado con exito";
+        const response = await data.json()
+        return response;
+    } catch (err){
+        console.error(err);
+    }
 }
 
 // npm run dev = Incializar vite

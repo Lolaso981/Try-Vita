@@ -39,14 +39,14 @@ export const createTodo = async (todo) => {
     }
 };
 
-export const updateTodo = async (id, todo) => {
+export const updateTodo = async (id, name) => {
     try {
         const response = await fetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(todo),
+            body: JSON.stringify(name),
         });
         const data = await response.json();
         return data;

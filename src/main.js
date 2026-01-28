@@ -1,6 +1,6 @@
 import './styles/style.css'
 import { routes } from "./constants/routes.js"
-import { createUser, deleteUsersById, getUsers, getUsersById } from './services/users.js';
+import { createUser, deleteUsersById, getUsers, getUsersById, updateUser } from './services/users.js';
 import {
   getTodos,
   createTodo,
@@ -372,7 +372,7 @@ async function initUsers() {
     }
   }
 
-  // Agregar nuevo todo
+  // Agregar nuevo User
   addBtn.addEventListener("click", agregarUser);
 
   async function agregarUser() {
@@ -404,7 +404,7 @@ async function initUsers() {
     }
   }
 
-  // Renderizar todos
+  // Renderizar Users
   async function renderizarUsers() {
     userList.innerHTML = "";
 
@@ -416,7 +416,6 @@ async function initUsers() {
     emptyState.style.display = "none";
 
     users.forEach((user) => {
-      console.log(user);
       const li = document.createElement("li");
       li.className = `todo-item ${user.completado ? "completed" : ""}`;
       li.innerHTML = `
@@ -428,10 +427,10 @@ async function initUsers() {
             ${user.completado ? "checked" : ""} 
             data-id="${user.id}"
           >
-          <span class="todo-title">${user.name}</span>
+          <span class="todo-title">${user.nombre}</span>
           <span class="todo-title">${user.email}</span>
-          <span class="todo-title">${user.age}</span>
-          <span class="todo-title">${user.city}</span>
+          <span class="todo-title">${user.edad}</span>
+          <span class="todo-title">${user.ciudad}</span>
         </div>
         <div class="todo-actions">
           <button class="btn btn-edit" data-id="${user.id}">Editar</button>
@@ -444,7 +443,7 @@ async function initUsers() {
       checkbox.addEventListener("change", () => toggleCompletado(user.id));
 
       const editBtn = li.querySelector(".btn-edit");
-      editBtn.addEventListener("click", () => editarTodo(user.id));
+      editBtn.addEventListener("click", () => editarUser(user.id));
 
       const deleteBtn = li.querySelector(".btn-delete");
       deleteBtn.addEventListener("click", () => eliminarUser(user.id));
@@ -453,7 +452,7 @@ async function initUsers() {
     });
   }
 
-  // Eliminar todo
+  // Eliminar User
   async function eliminarUser(id) {
     if (!confirm("¿Estás seguro de que deseas eliminar esta tarea?")) {
       return;
@@ -468,6 +467,46 @@ async function initUsers() {
       alert("Error al eliminar la tarea");
     }
   }
+
+  // Editar User
+    async function editarUser(id) {
+      const user = users.find((t) => t.id === id);
+      if (!user) return;
+
+      const nuevoNombre = prompt("Editar nombre:", user.nombre);
+      if (nuevoNombre === null) return;
+
+      const nuevoEmail = prompt("Editar email:", user.email);
+      if (nuevoEmail === null) return;
+
+      const nuevaEdad = prompt("Editar edad:", user.edad);
+      if (nuevaEdad === null) return;
+
+      const nuevaCiudad = prompt("Editar ciudad:", user.ciudad);
+      if (nuevaCiudad === null) return;
+
+      if (!nuevoNombre.trim() || !nuevoEmail.trim() || !nuevaEdad.trim() || !nuevaCiudad.trim()) {
+        alert("Todos los campos son obligatorios");
+        return;
+      }
+
+      if (nuevoNombre === null) return; // El usuario canceló
+
+      try {
+        const userActualizado = await updateUser(id, {
+          ...user,
+          nombre: nuevoNombre.trim(),
+          email: nuevoEmail.trim(),
+          edad: nuevaEdad.trim(),
+          ciudad: nuevaCiudad.trim()
+        });
+        Object.assign(user, userActualizado);
+        renderizarUsers();
+      } catch (error) {
+        console.error("Error editando todo:", error);
+        alert("Error al editar la tarea");
+      }
+    }
 
   // Cargar todos al iniciar la página
   cargarUsers();
